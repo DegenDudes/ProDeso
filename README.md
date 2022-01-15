@@ -25,6 +25,8 @@ I presume your system has git installed already.
 4. Bring up the containers:
 `docker compose up -d`
 
+5. Watch the logs for sync progress: `docker logs -tf backend 2>&1 | egrep "Received block|Received header bundle"`
+
 ## Sync Time
 
 IMPORTANT: It can take 24 hours for the full blockchain to be synced.
@@ -101,16 +103,38 @@ ORDER BY timestamp ASC
 
 ## Useful commands
 
-Update the images & restart affected containers
-`docker compose pull && docker compose up -d`
+Get backend logs from last 10min:
+
+```shell
+docker logs --since 10m backend
+```
+
+Show last 100 log lines & follow:
+
+```shell
+docker logs -n 100 -f backend
+```
+
+Update the images & restart affected containers:
+
+```shell
+docker compose pull
+docker compose up -d
+```
 
 To stop the containers: 
-`docker compose down`
+
+```shell
+docker compose down
+```
 
 To wipe the container volumes (this deletes synced blockchain data): 
-`docker compose down -v --remove-orphans`
 
-Check blockchain sync status: either open in your browser or curl http://localhost:17001/api/v0/health-check. This shows 200 if the full blockchain has been downloaded.
+```shell
+docker compose down -v --remove-orphans
+```
+
+Check blockchain sync status: either [open in your browser](http://localhost:17001/api/v0/health-check) or `curl http://localhost:17001/api/v0/health-check`. This shows 200 if the full blockchain has been downloaded.
 
 ## Limitations
 
