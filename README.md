@@ -154,6 +154,8 @@ This means:
 
 * The Postgres backend code is Beta and has not had much development over the last few months. 
 
+* If the backend crashes or panics for whatever reason, you may need to wipe volumes and resync the blockchain and db.
+
 ## Troubleshooting
 
 * The first time you bring up this container stack, it can take some time (5-10s) for the database connection to come up. The docker compose config is set to wait for 6 seconds before starting the backend. In most instances this is ok. If the backend container exits complaining of the db connection not being available, just rerun `docker compose up -d`.
