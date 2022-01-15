@@ -29,7 +29,7 @@ I presume your system has git installed already.
 
 ## Sync Time
 
-IMPORTANT: It can take 24 hours for the full blockchain to be synced.
+IMPORTANT: It can take 24 hours for the full blockchain to be synced. To minimise disruptions and issues, the backend is forced to connect to the primary node `deso-seed-4.io` using the `CONNECT_IPS` option in the `.env` file. 
 
 ## How to query the DB
 
