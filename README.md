@@ -10,6 +10,8 @@ If you are on a server, install [Docker](https://docs.docker.com/engine/install/
 
 If you are on a desktop, install [Docker Desktop](https://www.docker.com/products/docker-desktop).
 
+Make sure you give docker access to atleast 16gb of memory, and 300GB of discspace. On Docker Desktop you can do this in Settings > Resources > Advanced.
+
 I presume your system has git installed already.
 
 ## Quick Start
