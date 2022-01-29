@@ -4,9 +4,9 @@ services:
   backend:
     container_name: backend
     image: docker.io/desoprotocol/backend:stable
-    entrypoint: sh -c "sleep 6 && /deso/bin/backend run"
+    entrypoint: sh -c "sleep 10 && /deso/bin/backend run"
     volumes:
-      - global_state:/db
+      - global_state:/db:cached
     ports:
       - 17001:17001
       - 17000:17000
@@ -26,7 +26,8 @@ services:
     image: supabase/postgres:14.1.0
     user: postgres
     volumes:
-      - db:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data:cached
+      - $PWD/postgresql.conf:/etc/postgresql/postgresql.conf
     env_file:
       - ./.env
     ports:
