@@ -16,11 +16,18 @@ I presume your system has git installed already.
 
 ## Quick Start
 
+The config in the root of this repo will sync with Mainnet. The config in the `./testnet` folder will create a local testnet.
+
 1. Clone this repo locally: 
 `git clone https://github.com/DeSoDev/ProDeso.git`
 
 2. Open the folder:
+
 `cd ProDeso`
+
+if you want to run testnet:
+
+`cd ProDeso/testnet`
 
 3. Edit the `.env` file and change `POSTGRES_PASSWORD` value from `change_me` to a password you want to use
 
@@ -33,6 +40,21 @@ I presume your system has git installed already.
 
 IMPORTANT: It can take 24 hours for the full blockchain to be synced. To minimise disruptions and issues, the backend is forced to connect to the primary node `deso-seed-4.io` using the `CONNECT_IPS` option in the `.env` file. 
 
+
+## Testnet
+
+**WARNING** Profile updates wont work on testnet at the moment due to forced use of node.deso.org for update transactions. 
+
+This repo includes a configuration for starting up a testnet in `./testnet/` with following features added:
+
+- local testnet - this does not sync with global testnet
+- frontend included, accessible on localhost:80
+- regtest enabled (all fork heigths set to 0)
+- mining key enabled
+- container & db have `-testnet` appended, eg `backend-testnet` for container
+
+You can login to the testnet frontend with this seed `essence camp ghost remove document vault ladder swim pupil index apart ring` to get access to testnet DESO so you can setup a profile, and run your own test transactions.
+
 ## How to query the DB
 
 You can use any postgres compatible tool or GUI on your local machine to query the DB. Use the values from the `.env` file if you changed them.
@@ -41,7 +63,7 @@ You can use any postgres compatible tool or GUI on your local machine to query t
 * PORT: `5432`
 * USER: `postgres`
 * PASSWORD: `change_me`
-* DB: `deso`
+* DB: `deso` (note if you run `./testnet/` config it will be in `deso-testnet`)
 
 Here are some sample queries to run.
 
@@ -105,6 +127,8 @@ ORDER BY timestamp ASC
 
 ## Useful commands
 
+Note: if running testnet config, use `backend-testnet` for the container name to query the logs.
+
 Get backend logs from last 10min:
 
 ```shell
@@ -138,6 +162,8 @@ docker compose down -v --remove-orphans
 
 Check blockchain sync status: either [open in your browser](http://localhost:17001/api/v0/health-check) or `curl http://localhost:17001/api/v0/health-check`. This shows 200 if the full blockchain has been downloaded.
 
+If you are running testnet, then backend is running on port `18001 `. Container stack includes nginx on port 80 so you can use http://localhost/api/v0/health-check.
+
 ## Limitations
 
 This Deso Backend uses Postgres for data storage, and excludes the usual DESO frontend.
@@ -160,6 +186,9 @@ This means:
 
 * The first time you bring up this container stack, it can take some time (5-10s) for the database connection to come up. The docker compose config is set to wait for 6 seconds before starting the backend. In most instances this is ok. If the backend container exits complaining of the db connection not being available, just rerun `docker compose up -d`.
 
+* Testnet frontend wont allow profile updates due to forced use of node.deso.org for submitting the Tx.
+
 ## Todo
 
 - [ ] Add redash or another good data analysis web frontend to the stack.
+- [ ] Fix issue with frontend profile updates
